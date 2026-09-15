@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Detalle del Producto</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Home</a>
+                <a href="productos.html" class="activo">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <a href="carrito.html" class="info-carrito">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
+        </header>
+
+        <div class="barra-sesion">
+            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <main>
+            <p style="font-size:0.9rem;color:#64748b;margin-bottom:1rem;">
+                <a href="index.html" style="color:var(--secundario);text-decoration:none;">Home</a> ›
+                <a href="productos.html" style="color:var(--secundario);text-decoration:none;">Productos</a> ›
+                <span id="nombre-miga"></span>
+            </p>
+
+            <div class="detalle-producto" id="detalle"></div>
+
+            <section style="margin-top:3rem;">
+                <h2>Productos Relacionados</h2>
+                <div class="grilla-productos" id="grilla-relacionados"></div>
+            </section>
+        </main>
+
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda</p>
+                <p style="font-size:0.85rem;opacity:0.8;">© 2026 - Todos los derechos reservados</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!😎 </p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                    <button>Suscribirse</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        const id = obtenerIdDesdeURL();
+        const producto = PRODUCTOS.find(p => p.id === id);
+
+        if (!producto) {
+            document.getElementById("detalle").innerHTML =
+                "<p>Producto no encontrado. <a href='productos.html'>Volver al catálogo</a></p>";
+        } else {
+            document.getElementById("nombre-miga").textContent = producto.nombre;
+
+            document.getElementById("detalle").innerHTML = `
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <div class="detalle-info">
+                    <h1>${producto.nombre}</h1>
+                    <p style="color:#64748b;font-size:0.9rem;">Categoría: ${producto.categoria}</p>
+                    <p class="precio">$${producto.precio.toLocaleString('es-CL')}</p>
+                    <p class="descripcion">${producto.descripcion}</p>
+                    <p style="font-size:0.9rem;color:#16a34a;">✅ Stock disponible: ${producto.stock} unidades</p>
+
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" id="cantidad" value="1" min="1" max="${producto.stock}">
+
+                    <button class="btn-accion btn-acento" style="width:100%;padding:1rem;font-size:1rem;"
+                            onclick="agregarDesdeDetalle()">
+                        🛒 Añadir al carrito
+                    </button>
+                </div>
+            `;
+
+            // Productos relacionados (misma categoría, distinto id)
+            const relacionados = PRODUCTOS.filter(p => p.categoria === producto.categoria && p.id !== producto.id).slice(0, 4);
+            if (relacionados.length > 0) {
+                renderizarProductos("grilla-relacionados", relacionados);
+            } else {
+                document.getElementById("grilla-relacionados").innerHTML =
+                    "<p>No hay productos relacionados.</p>";
+            }
+        }
+
+        function agregarDesdeDetalle() {
+            const cantidad = parseInt(document.getElementById("cantidad").value) || 1;
+            agregarAlCarrito(id, cantidad);
+        }
+    </script>
+</body>
+</html>
