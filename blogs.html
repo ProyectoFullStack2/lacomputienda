@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html" class="activo">Home</a>
+                <a href="productos.html">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <a href="carrito.html" class="info-carrito">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
+        </header>
+
+        <div class="barra-sesion">
+            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <main>
+            <section style="text-align:center;padding:2rem 1rem;">
+                <h1>Blogs</h1>
+                <p style="font-size:1.1rem;color:#475569;max-width:700px;margin:0 auto 2rem;">
+                    Tienda mas reconocida de Chile, SP Digital.
+                </p>
+                <img src="https://media.licdn.com/dms/image/v2/C4E1BAQE3GYk3Ot1W_w/company-background_10000/company-background_10000/0/1645925288889/sp_digital_cover?e=2147483647&v=beta&t=gxGbiXCzQeNk7TcC1ABmjiR0C4DuOiICIzow5WBYDv0"
+                     style="width:100%;max-width:900px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+            </section>
+            <section style="text-align:center;padding:2rem 1rem;">
+                <p style="font-size:1.1rem;color:#475569;max-width:700px;margin:0 auto 2rem;">
+                    PC Factory se desliga de la sucursal de la Comuna de Los Quiyalles.
+                </p>
+                <img src="https://www.cencomalls.cl/sites/default/files/styles/rm_tiendas_fotos_y_mapas/public/fotos-tienda/Pc-factory_florida-center.jpeg.webp?itok=5FgmcU9i"
+                     style="width:100%;max-width:900px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+            </section>
+        </main>
+
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda</p>
+                <p style="font-size:0.85rem;opacity:0.8;">Fullstack II - Desarrollo Web </p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                    <button>Suscribirse</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        // Muestra solo 4 productos destacados en el Home
+        renderizarProductos("grilla-destacados", PRODUCTOS.slice(0, 4));
+    </script>
+</body>
+</html>
