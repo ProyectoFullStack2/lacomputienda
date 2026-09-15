@@ -567,3 +567,127 @@ h2 {
     .pie-pagina-izquierda { flex-direction: column; text-align: center; }
     .formulario-newsletter { justify-content: center; }
 }
+
+/* ===== SECCIÓN NOSOTROS ===== */
+.seccion-nosotros-banner {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.banner-descripcion {
+    font-size: 1.1rem;
+    color: #475569;
+    max-width: 750px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.banner-img {
+    width: 100%;
+    max-width: 850px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.seccion-mision-vision {
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border: 1px solid var(--color-borde, #e2e8f0);
+    border-radius: 10px;
+}
+
+.grilla-mision-vision {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.col-mision-vision {
+    flex: 1 1 300px;
+}
+
+.texto-mision-vision {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.seccion-equipo {
+    margin: 2.5rem 0;
+}
+
+.grilla-equipo {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.tarjeta-miembro {
+    background: #ffffff;
+    border: 1px solid var(--color-borde, #e2e8f0);
+    border-radius: 10px;
+    padding: 1.2rem;
+    width: 260px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.avatar-icono {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 0.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.avatar-michael { background: #e0e7ff; }
+.avatar-eli { background: #fee2e2; }
+.avatar-jony { background: #dcfce7; }
+
+.rol-miembro {
+    color: var(--secundario, #2563eb);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.desc-miembro {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+/* ===== SECCIÓN CONTACTO Y VALIDACIONES ===== */
+.campo-textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--color-borde, #cbd5e1);
+    border-radius: 5px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.mensaje-error {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    color: #ef4444;
+}
+
+.mensaje-exito {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background-color: #dcfce7;
+    color: #166534;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+}
+
