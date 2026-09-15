@@ -3,137 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La casa de tu mascota - Oficial</title>
+    <title>CompuTienda - Home</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <header id="main-header">
-        <div class="logo-box">
-            <img src="img/logomascotas.jpg" alt="Logo de la tienda" class="logo">
+    <div class="contenedor-principal">
+
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">CompuTienda</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html" class="activo">Home</a>
+                <a href="productos.html">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <div class="info-carrito">
+                🛒 Carrito (0)
+            </div>
+        </header>
+
+        <div class="barra-sesion">
+            <a href="iniciar-sesion.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
         </div>
-        <h1>La casa de tu mascota</h1>
-        <p>Alimentos balanceados y accesorios para consentir a tu mascota</p>
-    </header>
 
-    <nav class="navegacion">
-        <a href="#inicio">Inicio</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#registro">Crear Cuenta</a>
-        <a href="#ingreso">Iniciar Sesión</a>
-    </nav>
+        <section class="seccion-hero">
+            <div class="hero-contenido">
+                <div class="hero-texto">
+                    <h1>TIENDA ONLINE</h1>>
+                    <button class="boton-ver">Ver productos</button>
+                </div>
+                <div class="hero-imagen">
+                    <span>[ Imagen Destacada ]</span>
+                </div>
+            </div>
+        </section>
 
-    <main id="inicio">
-
-        <section id="catalogo">
+        <main class="seccion-productos">
             <h2>Productos Destacados</h2>
             <div class="grilla-productos">
-                <article class="item-producto">
-                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" alt="Alimento gatos" class="foto-producto">
-                    <h3>Mix Premium Felino 2kg</h3>
-                    <p>Nutrición completa y equilibrada para gatos cachorros y adultos.</p>
-                    <button type="button" class="btn-accion">Agregar al carro</button>
-                </article>
 
-                <article class="item-producto">
-                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="Snack perros" class="foto-producto">
-                    <h3>Snacks Dentales para Perros</h3>
-                    <p>Galletas horneadas para control de sarro y aliento fresco.</p>
-                    <button type="button" class="btn-accion">Agregar al carro</button>
-                </article>
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Procuto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
+
+                <div class="tarjeta-producto">
+                    <img src="" alt="Nombre Producto" class="imagen-producto">
+                    <p class="titulo-producto"></p>
+                    <div class="detalles-producto">
+                        <span class="atributo"></span>
+                        <span class="precio">$</span>
+                    </div>
+                </div>
             </div>
-        </section>
+        </main>
 
-        <section id="nosotros">
-            <h2>Conoce Nuestro Trabajo</h2>
-            <p>Descubre cómo seleccionamos cada producto pensando en la salud animal.</p>
-            <div class="caja-video">
-                <iframe 
-                    width="560" 
-                    height="315" 
-                    src="https://www.youtube-nocookie.com/embed/1K06Va2WvmM" 
-                    title="Video demostrativo de mascotas" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">CompuTienda</p>
             </div>
-        </section>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                </div>
+            </div>
+        </footer>
 
-        <section id="zona-usuarios">
-            
-            <article id="registro" class="tarjeta-formulario">
-                <h2>Registro de Cliente</h2>
-                <p>Regístrate y recibe un 10% de descuento en tu primer pedido.</p>
+    </div>
 
-                <form id="formularioRegistro">
-                    <div class="grupo-input">
-                        <label for="regNombre">Nombre y Apellido</label>
-                        <input type="text" id="regNombre" name="regNombre" placeholder="Ej: Michael Orellana">
-                        <span id="errorNombre" class="texto-alerta"></span>
-                    </div>
-
-                    <div class="grupo-input">
-                        <label for="regEmail">Correo Electrónico</label>
-                        <input type="email" id="regEmail" name="regEmail" placeholder="correo@ejemplo.cl">
-                        <span id="errorEmail" class="texto-alerta"></span>
-                    </div>
-
-                    <div class="grupo-input">
-                        <label for="regPassword">Contraseña</label>
-                        <input type="password" id="regPassword" name="regPassword" placeholder=" 6 caracteres min">
-                        <span id="errorPassword" class="texto-alerta"></span>
-                    </div>
-
-                    <div class="grupo-input">
-                        <label for="regMascota">Tipo de Mascota</label>
-                        <select id="regMascota" name="regMascota">
-                            <option value="">Selecciona una opción</option>
-                            <option value="perro">Perro</option>
-                            <option value="Gato">Gato</option>
-                            <option value="ave">Ave</option>
-                            <option value="roedor">Roedor</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                        <span id="errorMascota" class="texto-alerta"></span>
-                    </div>
-
-                    <button type="submit" class="btn-enviar">Crear Cuenta</button>
-                    <div id="resultadoRegistro" class="texto-exito"></div>
-                </form>
-            </article>
-
-            <article id="ingreso" class="tarjeta-formulario">
-                <h2>Ingreso de Clientes</h2>
-                <p>Accede con tus credenciales registradas.</p>
-
-                <form id="formularioLogin">
-                    <div class="grupo-input">
-                        <label for="loginEmail">Correo Electrónico</label>
-                        <input type="email" id="loginEmail" name="loginEmail" placeholder="correo@ejemplo.com">
-                        <span id="errorLoginEmail" class="texto-alerta"></span>
-                    </div>
-
-                    <div class="grupo-input">
-                        <label for="loginPassword">Contraseña</label>
-                        <input type="password" id="loginPassword" name="loginPassword" placeholder="Ingresa tu contraseña">
-                        <span id="errorLoginPassword" class="texto-alerta"></span>
-                    </div>
-
-                    <button type="submit" class="btn-enviar">Ingresar</button>
-                    <div id="resultadoLogin" class="texto-exito"></div>
-                </form>
-            </article>
-
-        </section>
-
-    </main>
-
-    <footer id="main-footer">
-        <p>&copy; 2026 La casa de tu mascota. Desarrollado por Michael Escobar - Todos los derechos reservados.</p>
-        <p>Atención al cliente: contacto@lacasadetumascota.cl | Santiago de Chile</p>
-    </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
