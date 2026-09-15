@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Nuevo Usuario</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- encabezado -->
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Ver Tienda</a>
+                <a href="admin-home.html">Panel Admin</a>
+                <a href="admin-productos.html">Mantenedor Productos</a>
+                <a href="admin-usuarios.html" class="activo">Mantenedor Usuarios</a>
+            </nav>
+            <div class="info-carrito">
+                👤 Administrador
+            </div>
+        </header>
+
+        <!-- MAIN= -->
+        <div class="layout-admin">
+            <aside class="sidebar-admin">
+                <div class="sidebar-titulo">
+                    ⚙️ Menú de Gestión
+                </div>
+                <nav class="menu-admin">
+                    <a href="admin-home.html">📊 Dashboard</a>
+                    <a href="admin-productos.html">📦 Productos</a>
+                    <a href="admin-nuevo-producto.html">➕ Nuevo Producto</a>
+                    <a href="admin-usuarios.html">👥 Usuarios</a>
+                    <a href="admin-nuevo-usuario.html" class="activo">➕ Nuevo Usuario</a>
+                    <a href="index.html">🚪 Salir a Tienda</a>
+                </nav>
+            </aside>
+
+            <main class="contenido-admin">
+                <h2>Registrar Nuevo Usuario / Personal</h2>
+                <p style="color:#64748b; margin-top:0.3rem; margin-bottom:1.5rem;">Cree una cuenta asignando el rol operativo correspondiente dentro del sistema.</p>
+
+                <div class="contenedor-form-admin">
+                    <form id="formNuevoUsuario" class="formulario-registro" novalidate>
+                        
+                        <div class="grilla-dos-columnas">
+                            <div>
+                                <label for="runUsuario">RUN (Sin puntos ni guion) (*)</label>
+                                <input type="text" id="runUsuario" name="runUsuario" maxlength="9" placeholder="Ej: 19011022K">
+                                <span id="errorRun" class="mensaje-error"></span>
+                            </div>
+                            <div>
+                                <label for="tipoUsuario">Perfil / Tipo de Usuario (*)</label>
+                                <select id="tipoUsuario" name="tipoUsuario">
+                                    <option value="">-- Seleccione Rol --</option>
+                                    <option value="Administrador">Administrador (Acceso total)</option>
+                                    <option value="Vendedor">Vendedor (Productos y Órdenes)</option>
+                                    <option value="Cliente">Cliente (Solo Tienda)</option>
+                                </select>
+                                <span id="errorTipo" class="mensaje-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="grilla-dos-columnas">
+                            <div>
+                                <label for="nombreUsuario">Nombres (*)</label>
+                                <input type="text" id="nombreUsuario" name="nombreUsuario" maxlength="50" placeholder="Ej: Michael Alexander">
+                                <span id="errorNombre" class="mensaje-error"></span>
+                            </div>
+                            <div>
+                                <label for="apellidosUsuario">Apellidos (*)</label>
+                                <input type="text" id="apellidosUsuario" name="apellidosUsuario" maxlength="100" placeholder="Ej: Escobar Figueroa">
+                                <span id="errorApellidos" class="mensaje-error"></span>
+                            </div>
+                        </div>
+
+                        <label for="correoUsuario">Correo Electrónico (*)</label>
+                        <input type="email" id="correoUsuario" name="correoUsuario" maxlength="100" placeholder="usuario@duoc.cl o @gmail.com">
+                        <span id="errorCorreo" class="mensaje-error"></span>
+
+                        <div class="grilla-dos-columnas">
+                            <div>
+                                <label for="regionUsuario">Región (*)</label>
+                                <select id="regionUsuario" name="regionUsuario">
+                                    <option value="">-- Seleccione Región --</option>
+                                    <option value="Metropolitana">Región Metropolitana</option>
+                                    <option value="Valparaíso">Región de Valparaíso</option>
+                                    <option value="Biobío">Región del Biobío</option>
+                                </select>
+                                <span id="errorRegion" class="mensaje-error"></span>
+                            </div>
+                            <div>
+                                <label for="comunaUsuario">Comuna (*)</label>
+                                <select id="comunaUsuario" name="comunaUsuario">
+                                    <option value="">-- Seleccione Comuna --</option>
+                                </select>
+                                <span id="errorComuna" class="mensaje-error"></span>
+                            </div>
+                        </div>
+
+                        <label for="direccionUsuario">Dirección (Opcional, máx. 300)</label>
+                        <input type="text" id="direccionUsuario" name="direccionUsuario" maxlength="300" placeholder="Ej: Av. Vicuña Mackenna 4000">
+
+                        <button type="submit" class="boton-registrar">REGISTRAR USUARIO</button>
+                        <div id="mensajeExito" class="mensaje-exito"></div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda - Sistema de Gestión</p>
+                <p style="font-size:0.85rem; opacity:0.8;">© 2026 - Módulo Administrativo</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>Soporte TI: admin@lacomputienda.cl</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/admin-usuario.js"></script>
+</body>
+</html>
