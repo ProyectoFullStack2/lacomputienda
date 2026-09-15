@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Productos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Home</a>
+                <a href="productos.html" class="activo">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <a href="carrito.html" class="info-carrito">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
+        </header>
+
+        <div class="barra-sesion">
+            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <main>
+            <h2>Catálogo de Productos</h2>
+
+            <div style="margin:1rem 0;max-width:300px;">
+                <label for="filtroCategoria"
+                       style="display:block;font-weight:600;color:var(--color-primario);margin-bottom:0.3rem;text-transform:uppercase;font-size:0.85rem;">
+                    Filtrar por categoría
+                </label>
+                <select id="filtroCategoria"
+                        onchange="filtrar()"
+                        style="width:100%;padding:0.6rem;border:1px solid var(--color-borde);border-radius:5px;">
+                    <option value="">Todas las categorías</option>
+                    <option value="Notebooks">Notebooks</option>
+                    <option value="PC Gamer">PC Gamer</option>
+                    <option value="Monitores">Monitores</option>
+                    <option value="Periféricos">Periféricos</option>
+                    <option value="Componentes">Componentes</option>
+                </select>
+            </div>
+
+            <div class="grilla-productos" id="grilla-productos"></div>
+        </main>
+
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda</p>
+                <p style="font-size:0.85rem;opacity:0.8;">© 2026 - Todos los derechos reservados</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                    <button>Suscribirse</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        renderizarProductos("grilla-productos");
+
+        function filtrar() {
+            const cat = document.getElementById("filtroCategoria").value;
+            const lista = cat ? PRODUCTOS.filter(p => p.categoria === cat) : PRODUCTOS;
+            renderizarProductos("grilla-productos", lista);
+        }
+    </script>
+</body>
+</html>
