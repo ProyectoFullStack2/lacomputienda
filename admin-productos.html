@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Lista de Productos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- encabezado -->
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Ver Tienda</a>
+                <a href="admin-home.html">Panel Admin</a>
+                <a href="admin-productos.html" class="activo">Mantenedor Productos</a>
+                <a href="admin-usuarios.html">Mantenedor Usuarios</a>
+            </nav>
+            <div class="info-carrito">
+                👤 Administrador
+            </div>
+        </header>
+
+        <!-- MAIN= -->
+        <div class="layout-admin">
+            <aside class="sidebar-admin">
+                <div class="sidebar-titulo">
+                    ⚙️ Menú de Gestión
+                </div>
+                <nav class="menu-admin">
+                    <a href="admin-home.html">📊 Dashboard</a>
+                    <a href="admin-productos.html" class="activo">📦 Productos</a>
+                    <a href="admin-nuevo-producto.html">➕ Nuevo Producto</a>
+                    <a href="admin-usuarios.html">👥 Usuarios</a>
+                    <a href="admin-nuevo-usuario.html">➕ Nuevo Usuario</a>
+                    <a href="index.html">🚪 Salir a Tienda</a>
+                </nav>
+            </aside>
+
+            <main class="contenido-admin">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+                    <div>
+                        <h2>Inventario de Productos</h2>
+                        <p style="color:#64748b; margin-top:0.3rem;">Listado general de artículos registrados con control de existencias.</p>
+                    </div>
+                    <a href="admin-nuevo-producto.html" class="btn-accion btn-acento" style="text-decoration:none;">➕ Nuevo Producto</a>
+                </div>
+
+                <div class="tabla-admin-contenedor">
+                    <table class="tabla-datos">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>PROD-001</strong></td>
+                                <td>Procesador AMD Ryzen 7 7800X3D</td>
+                                <td>Procesadores</td>
+                                <td>$420.000</td>
+                                <td>14</td>
+                                <td><span class="badge-alerta badge-normal">Normal</span></td>
+                                <td>
+                                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROD-002</strong></td>
+                                <td>Tarjeta Gráfica RTX 4070 Super</td>
+                                <td>Tarjetas de Video</td>
+                                <td>$680.000</td>
+                                <td>2</td>
+                                <td><span class="badge-alerta badge-critico">Crítico (≤5)</span></td>
+                                <td>
+                                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROD-003</strong></td>
+                                <td>Memoria RAM Corsair 32GB (2x16) DDR5</td>
+                                <td>Memorias RAM</td>
+                                <td>$115.000</td>
+                                <td>25</td>
+                                <td><span class="badge-alerta badge-normal">Normal</span></td>
+                                <td>
+                                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROD-004</strong></td>
+                                <td>SSD Kingston NV2 1TB NVMe M.2</td>
+                                <td>Almacenamiento</td>
+                                <td>$62.000</td>
+                                <td>1</td>
+                                <td><span class="badge-alerta badge-critico">Crítico (≤3)</span></td>
+                                <td>
+                                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>PROD-005</strong></td>
+                                <td>Licencia Guía Cómputo Básico</td>
+                                <td>Periféricos</td>
+                                <td>$0</td>
+                                <td>99</td>
+                                <td><span class="badge-alerta badge-normal">FREE</span></td>
+                                <td>
+                                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda - Sistema de Gestión</p>
+                <p style="font-size:0.85rem; opacity:0.8;">© 2026 - Módulo Administrativo</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>Soporte TI: admin@lacomputienda.cl</p>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>
