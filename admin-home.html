@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Panel Administrador</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- encabezado -->
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Ver Tienda</a>
+                <a href="admin-home.html" class="activo">Panel Admin</a>
+                <a href="admin-productos.html">Mantenedor Productos</a>
+                <a href="admin-usuarios.html">Mantenedor Usuarios</a>
+            </nav>
+            <div class="info-carrito">
+                👤 Administrador
+            </div>
+        </header>
+
+        <!-- MAIN= -->
+        <div class="layout-admin">
+            <aside class="sidebar-admin">
+                <div class="sidebar-titulo">
+                    ⚙️ Menú de Gestión
+                </div>
+                <nav class="menu-admin">
+                    <a href="admin-home.html" class="activo">📊 Dashboard</a>
+                    <a href="admin-productos.html">📦 Productos</a>
+                    <a href="admin-nuevo-producto.html">➕ Nuevo Producto</a>
+                    <a href="admin-usuarios.html">👥 Usuarios</a>
+                    <a href="admin-nuevo-usuario.html">➕ Nuevo Usuario</a>
+                    <a href="index.html">🚪 Salir a Tienda</a>
+                </nav>
+            </aside>
+
+            <main class="contenido-admin">
+                <h2>¡HOLA Administrador!</h2>
+                <p style="color:#64748b; margin-top:0.3rem;">Bienvenido al panel central de control y gestión de inventario.</p>
+
+                <div class="tarjetas-resumen">
+                    <div class="tarjeta-stat">
+                        <h3>Total Productos</h3>
+                        <p>12</p>
+                    </div>
+                    <div class="tarjeta-stat">
+                        <h3>Stock Crítico</h3>
+                        <p style="color:#ef4444;">2</p>
+                    </div>
+                    <div class="tarjeta-stat">
+                        <h3>Usuarios Registrados</h3>
+                        <p>24</p>
+                    </div>
+                    <div class="tarjeta-stat">
+                        <h3>Órdenes Hoy</h3>
+                        <p>8</p>
+                    </div>
+                </div>
+
+                <section style="margin-top:2.5rem; background:#fff; padding:1.5rem; border-radius:8px; border:1px solid #e2e8f0;">
+                    <h3>Accesos Rápidos</h3>
+                    <p style="color:#64748b; font-size:0.9rem; margin-bottom:1rem;">Selecciona una acción operativa para administrar el catálogo o las cuentas del personal.</p>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <a href="admin-nuevo-producto.html" class="btn-accion btn-acento" style="text-decoration:none;">➕ Registrar Producto</a>
+                        <a href="admin-nuevo-usuario.html" class="btn-accion" style="text-decoration:none;">➕ Registrar Usuario</a>
+                        <a href="admin-productos.html" class="btn-accion" style="text-decoration:none;">📋 Ver Catálogo Completo</a>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda - Sistema de Gestión</p>
+                <p style="font-size:0.85rem; opacity:0.8;">© 2026 - Módulo Administrativo</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>Soporte TI: admin@lacomputienda.cl</p>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>

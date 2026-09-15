@@ -691,3 +691,86 @@ h2 {
     font-weight: 600;
 }
 
+/* ===== MÓDULO ADMINISTRADOR ===== */
+.layout-admin {
+    display: flex;
+    min-height: 85vh;
+    background-color: #f1f5f9;
+}
+
+.sidebar-admin {
+    width: 250px;
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.menu-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-admin a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.menu-admin a:hover, 
+.menu-admin a.activo {
+    background-color: #1e293b;
+    color: #38bdf8;
+}
+
+.contenido-admin {
+    flex: 1;
+    padding: 2rem;
+}
+
+.tarjetas-resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.tarjeta-stat {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.tarjeta-stat h3 {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.tarjeta-stat p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+}
