@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CompuTienda - Home</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>La CompuTienda - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
     <div class="contenedor-principal">
 
         <header class="barra-navegacion">
             <div class="logo-contenedor">
                 <span class="cuadrito-logo"></span>
-                <span class="nombre-sitio">CompuTienda</span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
             </div>
             <nav class="enlaces-menu">
                 <a href="index.html" class="activo">Home</a>
@@ -22,119 +21,58 @@
                 <a href="blogs.html">Blogs</a>
                 <a href="contacto.html">Contacto</a>
             </nav>
-            <div class="info-carrito">
-                🛒 Carrito (0)
-            </div>
+            <a href="carrito.html" class="info-carrito">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
         </header>
 
         <div class="barra-sesion">
-            <a href="inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
             <a href="registro.html">Registrar usuario</a>
         </div>
 
-        <section class="seccion-hero">
-            <div class="hero-contenido">
-                <div class="hero-texto">
-                    <h1>TIENDA ONLINE</h1>>
-                    <button class="boton-ver">Ver productos</button>
-                </div>
-                <div class="hero-imagen">
-                    <span>[ Imagen Destacada ]</span>
-                </div>
-            </div>
-        </section>
+        <main>
+            <section style="text-align:center;padding:2rem 1rem;">
+                <h1>Bienvenido a La CompuTienda</h1>
+                <p style="font-size:1.1rem;color:#475569;max-width:700px;margin:0 auto 2rem;">
+                    Tu tienda especializada en computadores, notebooks y componentes 
+                    Encuentra el equipo perfecto para trabajar, estudiar o jugar.
+                </p>
+                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80"
+                     alt="Computadores"
+                     style="width:100%;max-width:900px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+            </section>
 
-        <main class="seccion-productos">
-            <h2>Productos Destacados</h2>
-            <div class="grilla-productos">
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
+            <section>
+                <h2>Productos Destacados</h2>
+                <div class="grilla-productos" id="grilla-destacados"></div>
+                <div style="text-align:center;margin-top:2rem;">
+                    <a href="productos.html" class="btn-accion">Ver todos los productos</a>
                 </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Procuto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-
-                <div class="tarjeta-producto">
-                    <img src="" alt="Nombre Producto" class="imagen-producto">
-                    <p class="titulo-producto"></p>
-                    <div class="detalles-producto">
-                        <span class="atributo"></span>
-                        <span class="precio">$</span>
-                    </div>
-                </div>
-            </div>
+            </section>
         </main>
 
         <footer class="pie-pagina-izquierda">
             <div class="pie-izquierda">
-                <p class="marca-footer">CompuTienda</p>
+                <p class="marca-footer">La CompuTienda</p>
+                <p style="font-size:0.85rem;opacity:0.8;">Fullstack II - Desarrollo Web </p>
             </div>
             <div class="pie-pagina-derecha">
                 <p>¡Mantente en contacto!</p>
                 <div class="formulario-newsletter">
                     <input type="email" placeholder="Ingresa tu correo">
+                    <button>Suscribirse</button>
                 </div>
             </div>
         </footer>
 
     </div>
 
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        // Muestra solo 4 productos destacados en el Home
+        renderizarProductos("grilla-destacados", PRODUCTOS.slice(0, 4));
+    </script>
 </body>
 </html>
