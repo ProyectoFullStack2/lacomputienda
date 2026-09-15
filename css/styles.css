@@ -774,3 +774,25 @@ h2 {
     font-weight: 700;
     color: #0f172a;
 }
+
+/* ===== COMPONENTES COMUNES ADMIN ===== */
+.contenedor-form-admin {
+    background: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 800px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.grilla-dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .grilla-dos-columnas {
+        grid-template-columns: 1fr;
+    }
+}
