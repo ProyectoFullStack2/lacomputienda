@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Mi Carrito</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- encabezado -->
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Home</a>
+                <a href="productos.html">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <a href="carrito.html" class="info-carrito activo">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
+        </header>
+
+        <!-- barra de sesión -->
+        <div class="barra-sesion">
+            <a href="Inicio-sesion.html">Iniciar sesión</a> |
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <!-- MAIN= -->
+        <main>
+            <h2>Mi Carrito de Compras</h2>
+
+            <!-- Tabla del carrito -->
+            <table class="carrito-tabla">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-carrito">
+                </tbody>
+            </table>
+
+            <!-- Total -->
+            <div class="carrito-total">
+                Total: <span id="total-carrito">$0</span>
+            </div>
+
+            <!-- Acciones -->
+            <div class="acciones-carrito">
+                <button class="btn-accion" onclick="vaciarCarrito()">🗑️ Vaciar carrito</button>
+                <a href="productos.html" class="btn-accion">← Seguir comprando</a>
+                <button class="btn-accion btn-acento" onclick="pagar()">💳 Pagar</button>
+            </div>
+
+            <!-- Mensaje de cupón -->
+            <div class="cupon-contenedor">
+                <label for="cupon">¿Tienes un cupón de descuento?</label>
+                <input type="text" id="cupon" placeholder="Ej: TECH10">
+                <button class="btn-accion" onclick="aplicarCupon()">Aplicar</button>
+                <p id="mensaje-cupon" class="texto-alerta"></p>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">CompuTienda</p>
+                <p style="font-size:0.85rem;opacity:0.8;">© 2026 - Todos los derechos reservados</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                    <button>Suscribirse</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS  -->
+    <script src="js/productos.js"></script>
+    <script src="js/carrito.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            renderizarCarrito();
+        });
+    </script>
+</body>
+</html>
