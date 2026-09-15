@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompuTienda - Iniciar Sesión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">CompuTienda </span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Home</a>
+                <a href="productos.html">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <div class="info-carrito">
+                🛒 Carrito (0)
+            </div>
+        </header>
+
+        <div class="barra-sesion">
+            <a href="iniciar-sesion.html" class="activo">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <main class="seccion-registro">
+            <div class="contenedor-formulario">
+                <div class="titulo-formulario">Iniciar sesión</div>
+                
+                <form class="formulario-registro">
+                    <label for="correo">CORREO</label>
+                    <input type="email" id="correo" name="correo" required>
+
+                    <label for="password">CONTRASEÑA</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <button type="submit" class="boton-registrar">INGRESAR</button>
+                </form>
+            </div>
+        </main>
+
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">CompuTienda</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>
