@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La CompuTienda - Contacto</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- encabezado -->
+        <header class="barra-navegacion">
+            <div class="logo-contenedor">
+                <span class="cuadrito-logo"></span>
+                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+            </div>
+            <nav class="enlaces-menu">
+                <a href="index.html">Home</a>
+                <a href="productos.html">Productos</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="contacto.html" class="activo">Contacto</a>
+            </nav>
+            <a href="carrito.html" class="info-carrito">
+                🛒 Carrito (<span id="contador-carrito">0</span>)
+            </a>
+        </header>
+
+        <!-- barra de sesión -->
+        <div class="barra-sesion">
+            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="registro.html">Registrar usuario</a>
+        </div>
+
+        <!-- MAIN= -->
+        <main class="seccion-registro">
+            <div class="contenedor-formulario">
+                <div class="titulo-formulario">Formulario de Contacto</div>
+                
+                <form id="formularioContacto" class="formulario-registro" novalidate>
+                    <label for="nombreContacto">NOMBRE COMPLETO (*)</label>
+                    <input type="text" id="nombreContacto" name="nombreContacto" maxlength="100" placeholder="Ej: Juan Pérez">
+                    <span id="errorNombre" class="texto-alerta" style="display:block; margin-bottom:0.8rem; font-size:0.85rem; color:#ef4444;"></span>
+
+                    <label for="correoContacto">CORREO ELECTRÓNICO (*)</label>
+                    <input type="email" id="correoContacto" name="correoContacto" maxlength="100" placeholder="usuario@duoc.cl o @gmail.com">
+                    <span id="errorCorreo" class="texto-alerta" style="display:block; margin-bottom:0.8rem; font-size:0.85rem; color:#ef4444;"></span>
+
+                    <label for="comentarioContacto">MENSAJE O COMENTARIO (*)</label>
+                    <textarea id="comentarioContacto" name="comentarioContacto" maxlength="500" rows="5" placeholder="Escribe tu consulta aquí (máx. 500 caracteres)..." style="width:100%; padding:0.6rem; border:1px solid var(--color-borde, #cbd5e1); border-radius:5px; font-family:inherit; resize:vertical;"></textarea>
+                    <span id="errorComentario" class="texto-alerta" style="display:block; margin-bottom:0.8rem; font-size:0.85rem; color:#ef4444;"></span>
+
+                    <button type="submit" class="boton-registrar">ENVIAR MENSAJE</button>
+                    <div id="mensajeExito" style="display:none; margin-top:1rem; padding:0.8rem; background-color:#dcfce7; color:#166534; border-radius:5px; text-align:center; font-weight:600;"></div>
+                </form>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="pie-pagina-izquierda">
+            <div class="pie-izquierda">
+                <p class="marca-footer">La CompuTienda</p>
+                <p style="font-size:0.85rem; opacity:0.8;">© 2026 - Todos los derechos reservados</p>
+            </div>
+            <div class="pie-pagina-derecha">
+                <p>¡Mantente en contacto!</p>
+                <div class="formulario-newsletter">
+                    <input type="email" placeholder="Ingresa tu correo">
+                    <button type="button">Suscribirse</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/carrito.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("formularioContacto");
+            const nombre = document.getElementById("nombreContacto");
+            const correo = document.getElementById("correoContacto");
+            const comentario = document.getElementById("comentarioContacto");
+
+            const errorNombre = document.getElementById("errorNombre");
+            const errorCorreo = document.getElementById("errorCorreo");
+            const errorComentario = document.getElementById("errorComentario");
+            const mensajeExito = document.getElementById("mensajeExito");
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                let esValido = true;
+
+                // reset errores
+                errorNombre.textContent = "";
+                errorCorreo.textContent = "";
+                errorComentario.textContent = "";
+                mensajeExito.style.display = "none";
+
+                // validar nombre
+                const valNombre = nombre.value.trim();
+                if (!valNombre) {
+                    errorNombre.textContent = "El nombre es obligatorio.";
+                    esValido = false;
+                } else if (valNombre.length > 100) {
+                    errorNombre.textContent = "El nombre no puede exceder los 100 caracteres.";
+                    esValido = false;
+                }
+
+                // validar correo
+                const valCorreo = correo.value.trim().toLowerCase();
+                const dominiosValidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
+                const tieneDominioValido = dominiosValidos.some(dom => valCorreo.endsWith(dom));
+
+                if (!valCorreo) {
+                    errorCorreo.textContent = "El correo es obligatorio.";
+                    esValido = false;
+                } else if (valCorreo.length > 100) {
+                    errorCorreo.textContent = "El correo no puede exceder los 100 caracteres.";
+                    esValido = false;
+                } else if (!tieneDominioValido) {
+                    errorCorreo.textContent = "Solo se permiten correos @duoc.cl, @profesor.duoc.cl o @gmail.com.";
+                    esValido = false;
+                }
+
+                // validar comentario
+                const valComentario = comentario.value.trim();
+                if (!valComentario) {
+                    errorComentario.textContent = "El mensaje o comentario es obligatorio.";
+                    esValido = false;
+                } else if (valComentario.length > 500) {
+                    errorComentario.textContent = "El comentario no puede exceder los 500 caracteres.";
+                    esValido = false;
+                }
+
+                // envio correcto
+                if (esValido) {
+                    mensajeExito.textContent = "✅ ¡Mensaje enviado con éxito! Nos contactaremos a la brevedad.";
+                    mensajeExito.style.display = "block";
+                    form.reset();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
