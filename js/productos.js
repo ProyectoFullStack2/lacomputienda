@@ -105,3 +105,105 @@ function obtenerIdDesdeURL() {
     const params = new URLSearchParams(window.location.search);
     return parseInt(params.get("id"));
 }
+
+/* ==========================================================================
+   RENDERIZADO DE CATÁLOGO: TABLA ADMINISTRATIVA DE PRODUCTOS
+   Responsabilidad:
+     - Detección del contenedor tabular administrativo en 'admin-productos.html'
+     - Recuperación y parseo de productos dinámicos persistidos en localStorage ('productos')
+     - Construcción dinámica de nodos <tr> e inyección en el <tbody>
+     - Cálculo visual del indicador badge según stock <= stockCritico
+   ========================================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const tablaCuerpo = document.querySelector(".tabla-datos tbody");
+
+    if (tablaCuerpo) {
+        const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
+
+        productosGuardados.forEach((item) => {
+            const fila = document.createElement("tr");
+
+            const esCritico = item.stockCritico !== null && item.stock <= item.stockCritico;
+            let badgeEstado = '<span class="badge-alerta badge-normal">Normal</span>';
+
+            if (item.precio === 0) {
+                badgeEstado = '<span class="badge-alerta badge-normal">FREE</span>';
+            } else if (esCritico) {
+                badgeEstado = `<span class="badge-alerta badge-critico">Crítico (≤${item.stockCritico})</span>`;
+            }
+
+            fila.innerHTML = `
+                <td><strong>${item.codigo}</strong></td>
+                <td>${item.nombre}</td>
+                <td>${item.categoria || "General"}</td>
+                <td>$${item.precio.toLocaleString("es-CL")}</td>
+                <td>${item.stock}</td>
+                <td>${badgeEstado}</td>
+                <td>
+                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                </td>
+            `;
+
+            tablaCuerpo.appendChild(fila);
+        });
+    }
+});
+
+/* ==========================================================================
+   RENDERIZADO Y ELIMINACIÓN: TABLA ADMINISTRATIVA DE PRODUCTOS
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    const tablaCuerpo = document.querySelector(".tabla-datos tbody");
+
+    if (tablaCuerpo) {
+        const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
+
+        productosGuardados.forEach((item) => {
+            const fila = document.createElement("tr");
+
+            const esCritico = item.stockCritico !== null && item.stock <= item.stockCritico;
+            let badgeEstado = '<span class="badge-alerta badge-normal">Normal</span>';
+
+            if (item.precio === 0) {
+                badgeEstado = '<span class="badge-alerta badge-normal">FREE</span>';
+            } else if (esCritico) {
+                badgeEstado = `<span class="badge-alerta badge-critico">Crítico (≤${item.stockCritico})</span>`;
+            }
+
+            fila.innerHTML = `
+                <td><strong>${item.codigo}</strong></td>
+                <td>${item.nombre}</td>
+                <td>${item.categoria || "General"}</td>
+                <td>$${item.precio.toLocaleString("es-CL")}</td>
+                <td>${item.stock}</td>
+                <td>${badgeEstado}</td>
+                <td>
+                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                    <button type="button" class="btn-tabla btn-eliminar" data-codigo="${item.codigo}">Eliminar</button>
+                </td>
+            `;
+
+            tablaCuerpo.appendChild(fila);
+        });
+
+        // Delegación de eventos para los botones Eliminar
+        tablaCuerpo.addEventListener("click", (e) => {
+            if (e.target.classList.contains("btn-eliminar")) {
+                const codigoAEliminar = e.target.getAttribute("data-codigo");
+
+                if (codigoAEliminar && confirm(`¿Estás seguro de que deseas eliminar el producto ${codigoAEliminar}?`)) {
+                    // Filtrar y actualizar localStorage
+                    let lista = JSON.parse(localStorage.getItem("productos")) || [];
+                    lista = lista.filter(prod => prod.codigo !== codigoAEliminar);
+                    localStorage.setItem("productos", JSON.stringify(lista));
+
+                    // Quitar la fila de la tabla en el navegador
+                    const fila = e.target.closest("tr");
+                    if (fila) fila.remove();
+                }
+            }
+        });
+    }
+});

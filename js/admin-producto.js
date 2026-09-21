@@ -107,6 +107,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
             mensajeExito.textContent = `✅ ¡Producto "${valNombre}" guardado exitosamente!${avisoCritico}`;
             mensajeExito.style.display = "block";
+
+            /* ==========================================================================
+               PERSISTENCIA CLIENT-SIDE: REGISTRO DE PRODUCTO
+               Estructura del objeto producto:
+                 - codigo       : Identificador único alfanumérico (valCodigo)
+                 - nombre       : Denominación comercial (valNombre)
+                 - descripcion  : Detalle comercial del artículo (valDescripcion)
+                 - precio       : Valor numérico en CLP (valPrecio)
+                 - stock        : Cantidad entera disponible (valStock)
+                 - stockCritico : Umbral numérico mínimo para advertencias (valCritico)
+                 - categoria    : Categoría seleccionada (selectCategoria.value)
+               Almacenamiento: Array serializado en JSON bajo la clave 'productos' de localStorage
+               ========================================================================== */
+            const nuevoProducto = {
+                codigo: valCodigo,
+                nombre: valNombre,
+                descripcion: valDescripcion,
+                precio: valPrecio,
+                stock: valStock,
+                stockCritico: valCritico !== null ? valCritico : 5,
+                categoria: selectCategoria.value
+            };
+
+            const coleccionProductos = JSON.parse(localStorage.getItem("productos")) || [];
+            coleccionProductos.push(nuevoProducto);
+            localStorage.setItem("productos", JSON.stringify(coleccionProductos));
+
             form.reset();
         }
     });

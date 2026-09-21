@@ -121,9 +121,108 @@ document.addEventListener("DOMContentLoaded", () => {
             if (esValido) {
                 mensajeExito.textContent = `✅ ¡Usuario "${valNombre} ${valApellidos}" registrado exitosamente con rol ${selectTipo.value}!`;
                 mensajeExito.style.display = "block";
+
+                /* ==========================================================================
+                   PERSISTENCIA CLIENT-SIDE: REGISTRO DE CUENTA DE USUARIO
+                   Estructura del objeto usuario:
+                     - run       : Identificador nacional validado (valRun)
+                     - nombre    : Nombres del usuario (valNombre)
+                     - apellidos : Apellidos del usuario (valApellidos)
+                     - correo    : Dirección electrónica institucional o autorizada (valCorreo)
+                     - rol       : Perfil asignado desde el formulario (selectTipo.value)
+                     - comuna    : Comuna seleccionada (selectComuna.value)
+                   Almacenamiento: Array serializado en JSON bajo la clave 'usuarios' de localStorage
+                   ========================================================================== */
+                const nuevoUsuario = {
+                    run: valRun,
+                    nombre: valNombre,
+                    apellidos: valApellidos,
+                    correo: valCorreo,
+                    rol: selectTipo.value,
+                    comuna: selectComuna.value
+                };
+
+                const coleccionUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+                coleccionUsuarios.push(nuevoUsuario);
+                localStorage.setItem("usuarios", JSON.stringify(coleccionUsuarios));
+
                 form.reset();
                 selectComuna.innerHTML = '<option value="">-- Seleccione Comuna --</option>';
             }
         });
     }
+
+    /* ==========================================================================
+       RENDERIZADO DE CUENTAS: TABLA ADMINISTRATIVA DE PERSONAL
+       Responsabilidad:
+         - Detección de la tabla administrativa en 'admin-usuarios.html'
+         - Recuperación y deserialización del array 'usuarios' de localStorage
+         - Construcción dinámica de filas <tr> con los datos y botones de acción
+       ========================================================================== */
+    const tablaCuerpoUsuarios = document.querySelector(".tabla-datos tbody");
+    const esPaginaListaUsuarios = window.location.pathname.includes("admin-usuarios.html");
+
+    if (tablaCuerpoUsuarios && esPaginaListaUsuarios) {
+        const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+        usuariosGuardados.forEach((user) => {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td><strong>${user.run}</strong></td>
+                <td>${user.nombre} ${user.apellidos}</td>
+                <td>${user.correo}</td>
+                <td><span class="badge-alerta" style="background:#dcfce7; color:#166534;">${user.rol}</span></td>
+                <td>${user.comuna || "N/A"}</td>
+                <td>
+                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
+                </td>
+            `;
+            tablaCuerpoUsuarios.appendChild(fila);
+        });
+    }
 });
+
+/* ==========================================================================
+       RENDERIZADO Y ELIMINACIÓN: TABLA ADMINISTRATIVA DE PERSONAL
+       ========================================================================== */
+    const tablaCuerpoUsuarios = document.querySelector(".tabla-datos tbody");
+    const esPaginaListaUsuarios = window.location.pathname.includes("admin-usuarios.html");
+
+    if (tablaCuerpoUsuarios && esPaginaListaUsuarios) {
+        const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+        usuariosGuardados.forEach((user) => {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td><strong>${user.run}</strong></td>
+                <td>${user.nombre} ${user.apellidos}</td>
+                <td>${user.correo}</td>
+                <td><span class="badge-alerta" style="background:#dcfce7; color:#166534;">${user.rol}</span></td>
+                <td>${user.comuna || "N/A"}</td>
+                <td>
+                    <button type="button" class="btn-tabla btn-editar">Editar</button>
+                    <button type="button" class="btn-tabla btn-eliminar" data-run="${user.run}">Eliminar</button>
+                </td>
+            `;
+            tablaCuerpoUsuarios.appendChild(fila);
+        });
+
+        // Evento para eliminar usuario dinámico
+        tablaCuerpoUsuarios.addEventListener("click", (e) => {
+            if (e.target.classList.contains("btn-eliminar")) {
+                const runAEliminar = e.target.getAttribute("data-run");
+
+                if (runAEliminar && confirm(`¿Estás seguro de que deseas eliminar al usuario RUN ${runAEliminar}?`)) {
+                    // Filtrar arreglo y actualizar localStorage
+                    let lista = JSON.parse(localStorage.getItem("usuarios")) || [];
+                    lista = lista.filter(u => u.run !== runAEliminar);
+                    localStorage.setItem("usuarios", JSON.stringify(lista));
+
+                    // Quitar fila del DOM
+                    const fila = e.target.closest("tr");
+                    if (fila) fila.remove();
+                }
+            }
+        });
+    }

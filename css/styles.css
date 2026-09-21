@@ -796,3 +796,79 @@ h2 {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== TABLAS DEL ADMINISTRADOR ===== */
+.tabla-admin-contenedor {
+    background: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.tabla-datos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tabla-datos th {
+    background-color: #0f172a;
+    color: #ffffff;
+    text-align: left;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabla-datos td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--color-borde);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.tabla-datos tr:hover {
+    background-color: #f8fafc;
+}
+
+.badge-alerta {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badge-critico {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.badge-normal {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.btn-tabla {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-editar {
+    background-color: #f59e0b;
+    color: #ffffff;
+    margin-right: 0.3rem;
+}
+
+.btn-eliminar {
+    background-color: #ef4444;
+    color: #ffffff;
+}
