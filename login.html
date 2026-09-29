@@ -1,0 +1,41 @@
+<!-- ARCHIVO: login.html -->
+<!-- OBJETIVO: Estructura HTML de login vinculando estilos externos y scripts de autenticación -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - CompuTienda</title>
+    <!-- Estilos generales y estilos específicos de login -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <main class="login-contenedor">
+        <section class="login-card">
+            <h2>Acceso al Sistema</h2>
+            
+            <form id="formLogin">
+                <div class="form-grupo">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" id="correo" placeholder="admin@computienda.cl" required autocomplete="email">
+                </div>
+
+                <div class="form-grupo">
+                    <label for="clave">Contraseña:</label>
+                    <input type="password" id="clave" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn-ingresar">INGRESAR</button>
+                <div id="errorMsg" class="error-alerta" role="alert"></div>
+            </form>
+        </section>
+    </main>
+
+    <!-- SDK de Supabase, cliente de conexión y lógica de autenticación -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

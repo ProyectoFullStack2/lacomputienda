@@ -1,4 +1,10 @@
-document.addEventListener("DOMContentLoaded", () => {
+// ARCHIVO: js/admin-usuario.js
+// OBJETIVO: Validación de rol de Administrador, guardado de usuarios en Supabase, listado dinámico y eliminación en PostgreSQL
+
+// 1. Proteger ruta: solo accesible por Administrador logueado
+const adminLogueado = protegerRutaAdministrador();
+
+document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("formNuevoUsuario");
 
     const inputRun = document.getElementById("runUsuario");
@@ -19,19 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorComuna = document.getElementById("errorComuna");
     const mensajeExito = document.getElementById("mensajeExito");
 
-    // Dataset simulado de Regiones y Comunas de Chile
+    // Dataset de Regiones y Comunas de Chile
     const comunasPorRegion = {
         "Metropolitana": ["Santiago", "Maipú", "La Florida", "Puente Alto", "San Joaquín", "Providencia"],
         "Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "Concón"],
         "Biobío": ["Concepción", "Talcahuano", "Chillán (ex Región)", "Los Ángeles", "San Pedro de la Paz"]
     };
 
-    // Dinámica de carga de comunas según región seleccionada
+    // Dinámica select dependiente: Carga de comunas según región seleccionada
     if (selectRegion && selectComuna) {
         selectRegion.addEventListener("change", () => {
             const regionSeleccionada = selectRegion.value;
             selectComuna.innerHTML = '<option value="">-- Seleccione Comuna --</option>';
-            
+
             if (comunasPorRegion[regionSeleccionada]) {
                 comunasPorRegion[regionSeleccionada].forEach(comuna => {
                     const option = document.createElement("option");
@@ -43,8 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ==========================================================================
+    // SECCIÓN 1: FORMULARIO DE REGISTRO EN SUPABASE (admin-nuevo-usuario.html)
+    // ==========================================================================
     if (form) {
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
             let esValido = true;
 
@@ -58,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             errorComuna.textContent = "";
             mensajeExito.style.display = "none";
 
-            // 1. Validación de RUN (Sin puntos ni guion, 7 a 9 caracteres)
+            // 1. RUN: 7 a 9 caracteres alfanuméricos
             const valRun = inputRun.value.trim().toUpperCase();
             const regexRun = /^[0-9]{6,8}[0-9K]$/;
             if (!valRun) {
@@ -69,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 esValido = false;
             }
 
-            // 2. Nombre: Requerido, máx 50 caracteres
+            // 2. Nombre: Requerido, máx 50 car.
             const valNombre = inputNombre.value.trim();
             if (!valNombre) {
                 errorNombre.textContent = "El nombre es obligatorio.";
@@ -79,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 esValido = false;
             }
 
-            // 3. Apellidos: Requerido, máx 100 caracteres
+            // 3. Apellidos: Requerido, máx 100 car.
             const valApellidos = inputApellidos.value.trim();
             if (!valApellidos) {
                 errorApellidos.textContent = "Los apellidos son obligatorios.";
@@ -89,19 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 esValido = false;
             }
 
-            // 4. Correo: Requerido, dominios permitidos
+            // 4. Correo: Dominios permitidos
             const valCorreo = inputCorreo.value.trim().toLowerCase();
-            const dominiosValidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
+            const dominiosValidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com", "@computienda.cl"];
             const tieneDominioValido = dominiosValidos.some(dom => valCorreo.endsWith(dom));
             if (!valCorreo) {
                 errorCorreo.textContent = "El correo es obligatorio.";
                 esValido = false;
             } else if (!tieneDominioValido) {
-                errorCorreo.textContent = "Solo se permiten correos @duoc.cl, @profesor.duoc.cl o @gmail.com.";
+                errorCorreo.textContent = "Solo se permiten correos @duoc.cl, @profesor.duoc.cl, @gmail.com o @computienda.cl.";
                 esValido = false;
             }
 
-            // 5. Tipo de Usuario: Requerido
+            // 5. Tipo/Rol de Usuario
             if (!selectTipo.value) {
                 errorTipo.textContent = "Debe seleccionar un perfil de usuario.";
                 esValido = false;
@@ -117,112 +126,142 @@ document.addEventListener("DOMContentLoaded", () => {
                 esValido = false;
             }
 
-            // Éxito
+            // Si es válido, guardar en la base de datos Supabase
             if (esValido) {
-                mensajeExito.textContent = `✅ ¡Usuario "${valNombre} ${valApellidos}" registrado exitosamente con rol ${selectTipo.value}!`;
-                mensajeExito.style.display = "block";
-
-                /* ==========================================================================
-                   PERSISTENCIA CLIENT-SIDE: REGISTRO DE CUENTA DE USUARIO
-                   Estructura del objeto usuario:
-                     - run       : Identificador nacional validado (valRun)
-                     - nombre    : Nombres del usuario (valNombre)
-                     - apellidos : Apellidos del usuario (valApellidos)
-                     - correo    : Dirección electrónica institucional o autorizada (valCorreo)
-                     - rol       : Perfil asignado desde el formulario (selectTipo.value)
-                     - comuna    : Comuna seleccionada (selectComuna.value)
-                   Almacenamiento: Array serializado en JSON bajo la clave 'usuarios' de localStorage
-                   ========================================================================== */
                 const nuevoUsuario = {
                     run: valRun,
                     nombre: valNombre,
                     apellidos: valApellidos,
                     correo: valCorreo,
-                    rol: selectTipo.value,
-                    comuna: selectComuna.value
+                    clave: "123456", // Contraseña inicial genérica para que el usuario pueda iniciar sesión
+                    rol: selectTipo.value
                 };
 
-                const coleccionUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-                coleccionUsuarios.push(nuevoUsuario);
-                localStorage.setItem("usuarios", JSON.stringify(coleccionUsuarios));
+                try {
+                    const { error } = await window.db
+                        .from("usuarios")
+                        .insert([nuevoUsuario]);
 
-                form.reset();
-                selectComuna.innerHTML = '<option value="">-- Seleccione Comuna --</option>';
-            }
-        });
-    }
+                    if (error) {
+                        if (error.code === "23505") { // Clave única duplicada
+                            errorCorreo.textContent = "Ya existe un usuario con este RUN o Correo.";
+                        } else {
+                            alert("Error al guardar en la base de datos: " + error.message);
+                        }
+                        return;
+                    }
 
-    /* ==========================================================================
-       RENDERIZADO DE CUENTAS: TABLA ADMINISTRATIVA DE PERSONAL
-       Responsabilidad:
-         - Detección de la tabla administrativa en 'admin-usuarios.html'
-         - Recuperación y deserialización del array 'usuarios' de localStorage
-         - Construcción dinámica de filas <tr> con los datos y botones de acción
-       ========================================================================== */
-    const tablaCuerpoUsuarios = document.querySelector(".tabla-datos tbody");
-    const esPaginaListaUsuarios = window.location.pathname.includes("admin-usuarios.html");
+                    mensajeExito.textContent = `✅ ¡Usuario "${valNombre} ${valApellidos}" registrado exitosamente con rol ${selectTipo.value}!`;
+                    mensajeExito.style.display = "block";
 
-    if (tablaCuerpoUsuarios && esPaginaListaUsuarios) {
-        const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios")) || [];
+                    form.reset();
+                    selectComuna.innerHTML = '<option value="">-- Seleccione Comuna --</option>';
 
-        usuariosGuardados.forEach((user) => {
-            const fila = document.createElement("tr");
-            fila.innerHTML = `
-                <td><strong>${user.run}</strong></td>
-                <td>${user.nombre} ${user.apellidos}</td>
-                <td>${user.correo}</td>
-                <td><span class="badge-alerta" style="background:#dcfce7; color:#166534;">${user.rol}</span></td>
-                <td>${user.comuna || "N/A"}</td>
-                <td>
-                    <button type="button" class="btn-tabla btn-editar">Editar</button>
-                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
-                </td>
-            `;
-            tablaCuerpoUsuarios.appendChild(fila);
-        });
-    }
-});
-
-/* ==========================================================================
-       RENDERIZADO Y ELIMINACIÓN: TABLA ADMINISTRATIVA DE PERSONAL
-       ========================================================================== */
-    const tablaCuerpoUsuarios = document.querySelector(".tabla-datos tbody");
-    const esPaginaListaUsuarios = window.location.pathname.includes("admin-usuarios.html");
-
-    if (tablaCuerpoUsuarios && esPaginaListaUsuarios) {
-        const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-        usuariosGuardados.forEach((user) => {
-            const fila = document.createElement("tr");
-            fila.innerHTML = `
-                <td><strong>${user.run}</strong></td>
-                <td>${user.nombre} ${user.apellidos}</td>
-                <td>${user.correo}</td>
-                <td><span class="badge-alerta" style="background:#dcfce7; color:#166534;">${user.rol}</span></td>
-                <td>${user.comuna || "N/A"}</td>
-                <td>
-                    <button type="button" class="btn-tabla btn-editar">Editar</button>
-                    <button type="button" class="btn-tabla btn-eliminar" data-run="${user.run}">Eliminar</button>
-                </td>
-            `;
-            tablaCuerpoUsuarios.appendChild(fila);
-        });
-
-        // Evento para eliminar usuario dinámico
-        tablaCuerpoUsuarios.addEventListener("click", (e) => {
-            if (e.target.classList.contains("btn-eliminar")) {
-                const runAEliminar = e.target.getAttribute("data-run");
-
-                if (runAEliminar && confirm(`¿Estás seguro de que deseas eliminar al usuario RUN ${runAEliminar}?`)) {
-                    // Filtrar arreglo y actualizar localStorage
-                    let lista = JSON.parse(localStorage.getItem("usuarios")) || [];
-                    lista = lista.filter(u => u.run !== runAEliminar);
-                    localStorage.setItem("usuarios", JSON.stringify(lista));
-
-                    // Quitar fila del DOM
-                    const fila = e.target.closest("tr");
-                    if (fila) fila.remove();
+                } catch (err) {
+                    console.error("Error al registrar usuario:", err);
+                    alert("Ocurrió un error al contactar la base de datos.");
                 }
             }
         });
     }
+
+    // ==========================================================================
+    // SECCIÓN 2: RENDERIZADO Y ELIMINACIÓN EN TABLA (admin-usuarios.html)
+    // ==========================================================================
+    const tablaCuerpoUsuarios = document.querySelector(".tabla-datos tbody");
+    const esPaginaListaUsuarios = window.location.pathname.includes("admin-usuarios.html");
+
+    if (tablaCuerpoUsuarios && esPaginaListaUsuarios) {
+
+        // Función para cargar los usuarios desde Supabase
+        async function cargarUsuariosDesdeBD() {
+            tablaCuerpoUsuarios.innerHTML = `<tr><td colspan="7" style="text-align:center;">Cargando usuarios desde PostgreSQL...</td></tr>`;
+
+            try {
+                const { data: usuarios, error } = await window.db
+                    .from("usuarios")
+                    .select("id, run, nombre, apellidos, correo, rol")
+                    .order("id", { ascending: false });
+
+                if (error) {
+                    console.error("Error al obtener usuarios:", error);
+                    tablaCuerpoUsuarios.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Error: ${error.message}</td></tr>`;
+                    return;
+                }
+
+                tablaCuerpoUsuarios.innerHTML = "";
+
+                if (!usuarios || usuarios.length === 0) {
+                    tablaCuerpoUsuarios.innerHTML = `<tr><td colspan="7" style="text-align:center;">No hay usuarios registrados.</td></tr>`;
+                    return;
+                }
+
+                usuarios.forEach((user) => {
+                    const fila = document.createElement("tr");
+
+                    // Color de badge según rol
+                    let colorBadge = "background:#dcfce7; color:#166534;"; // Verde (Cliente)
+                    if (user.rol === "Administrador") {
+                        colorBadge = "background:#fee2e2; color:#991b1b;"; // Rojo
+                    } else if (user.rol === "Vendedor") {
+                        colorBadge = "background:#e0f2fe; color:#075985;"; // Azul
+                    }
+
+                    fila.innerHTML = `
+                        <td><strong>${user.run}</strong></td>
+                        <td>${user.nombre} ${user.apellidos || ""}</td>
+                        <td>${user.correo}</td>
+                        <td><span class="badge-alerta" style="${colorBadge}">${user.rol}</span></td>
+                        <td>N/A</td>
+                        <td>
+                            <button type="button" class="btn-tabla btn-eliminar" data-run="${user.run}">Eliminar</button>
+                        </td>
+                    `;
+                    tablaCuerpoUsuarios.appendChild(fila);
+                });
+
+            } catch (err) {
+                console.error("Error de conexión:", err);
+                tablaCuerpoUsuarios.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Error de conexión con el servidor.</td></tr>`;
+            }
+        }
+
+        // Cargar usuarios al entrar a la página
+        await cargarUsuariosDesdeBD();
+
+        // Evento para eliminar usuario directamente en Supabase
+        tablaCuerpoUsuarios.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("btn-eliminar")) {
+                const runAEliminar = e.target.getAttribute("data-run");
+
+                // Evitar que el admin principal se borre a sí mismo
+                if (adminLogueado && adminLogueado.run === runAEliminar) {
+                    alert("No puedes eliminar tu propia cuenta de Administrador activa.");
+                    return;
+                }
+
+                if (runAEliminar && confirm(`¿Estás seguro de que deseas eliminar al usuario RUN ${runAEliminar}?`)) {
+                    try {
+                        const { error } = await window.db
+                            .from("usuarios")
+                            .delete()
+                            .eq("run", runAEliminar);
+
+                        if (error) {
+                            alert("Error al eliminar el usuario de la base de datos: " + error.message);
+                            return;
+                        }
+
+                        // Quitar fila del DOM
+                        const fila = e.target.closest("tr");
+                        if (fila) fila.remove();
+
+                    } catch (err) {
+                        console.error("Error al eliminar:", err);
+                        alert("Ocurrió un error al intentar eliminar.");
+                    }
+                }
+            }
+        });
+    }
+});
