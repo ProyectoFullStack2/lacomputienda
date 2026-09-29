@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorCategoria = document.getElementById("errorCategoria");
     const mensajeExito = document.getElementById("mensajeExito");
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
         let esValido = true;
 
@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
         errorCategoria.textContent = "";
         mensajeExito.style.display = "none";
 
-        // 1. Código: Requerido, texto, min 3 caracteres
-        const valCodigo = inputCodigo.value.trim();
+        // 1. Código
+        const valCodigo = inputCodigo.value.trim().toUpperCase();
         if (!valCodigo) {
             errorCodigo.textContent = "El código del producto es obligatorio.";
             esValido = false;
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             esValido = false;
         }
 
-        // 2. Nombre: Requerido, max 100 caracteres
+        // 2. Nombre
         const valNombre = inputNombre.value.trim();
         if (!valNombre) {
             errorNombre.textContent = "El nombre del producto es obligatorio.";
@@ -52,14 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
             esValido = false;
         }
 
-        // 3. Descripción: Opcional, max 500 caracteres
+        // 3. Descripción
         const valDescripcion = inputDescripcion.value.trim();
         if (valDescripcion.length > 500) {
             errorDescripcion.textContent = "La descripción no puede superar los 500 caracteres.";
             esValido = false;
         }
 
-        // 4. Precio: Requerido, min 0, puede tener decimales
+        // 4. Precio
         const valPrecioRaw = inputPrecio.value.trim();
         const valPrecio = parseFloat(valPrecioRaw);
         if (valPrecioRaw === "" || isNaN(valPrecio)) {
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
             esValido = false;
         }
 
-        // 5. Stock: Requerido, entero, min 0
+        // 5. Stock
         const valStockRaw = inputStock.value.trim();
         const valStock = Number(valStockRaw);
         if (valStockRaw === "" || isNaN(valStock)) {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             esValido = false;
         }
 
-        // 6. Stock Crítico: Opcional, entero, min 0
+        // 6. Stock Crítico
         const valCriticoRaw = inputStockCritico.value.trim();
         let valCritico = null;
         if (valCriticoRaw !== "") {
@@ -92,49 +92,51 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 7. Categoría: Requerido
+        // 7. Categoría
         if (!selectCategoria.value) {
             errorCategoria.textContent = "Debe seleccionar una categoría.";
             esValido = false;
         }
 
-        // Si pasa todas las validaciones
+        // Si es válido, guardar en Supabase
         if (esValido) {
-            let avisoCritico = "";
-            if (valCritico !== null && valStock <= valCritico) {
-                avisoCritico = " ⚠️ Atención: El stock ingresado está en nivel crítico.";
-            }
-
-            mensajeExito.textContent = `✅ ¡Producto "${valNombre}" guardado exitosamente!${avisoCritico}`;
-            mensajeExito.style.display = "block";
-
-            /* ==========================================================================
-               PERSISTENCIA CLIENT-SIDE: REGISTRO DE PRODUCTO
-               Estructura del objeto producto:
-                 - codigo       : Identificador único alfanumérico (valCodigo)
-                 - nombre       : Denominación comercial (valNombre)
-                 - descripcion  : Detalle comercial del artículo (valDescripcion)
-                 - precio       : Valor numérico en CLP (valPrecio)
-                 - stock        : Cantidad entera disponible (valStock)
-                 - stockCritico : Umbral numérico mínimo para advertencias (valCritico)
-                 - categoria    : Categoría seleccionada (selectCategoria.value)
-               Almacenamiento: Array serializado en JSON bajo la clave 'productos' de localStorage
-               ========================================================================== */
             const nuevoProducto = {
                 codigo: valCodigo,
                 nombre: valNombre,
-                descripcion: valDescripcion,
-                precio: valPrecio,
+                categoria: selectCategoria.value,
+                precio: Math.round(valPrecio),
                 stock: valStock,
-                stockCritico: valCritico !== null ? valCritico : 5,
-                categoria: selectCategoria.value
+                stock_critico: valCritico !== null ? valCritico : 5
             };
 
-            const coleccionProductos = JSON.parse(localStorage.getItem("productos")) || [];
-            coleccionProductos.push(nuevoProducto);
-            localStorage.setItem("productos", JSON.stringify(coleccionProductos));
+            try {
+                const { error } = await window.db
+                    .from("productos")
+                    .insert([nuevoProducto]);
 
-            form.reset();
+                if (error) {
+                    if (error.code === "23505") {
+                        errorCodigo.textContent = "Ya existe un producto registrado con este código.";
+                    } else {
+                        alert("Error al guardar en la base de datos: " + error.message);
+                    }
+                    return;
+                }
+
+                let avisoCritico = "";
+                if (valCritico !== null && valStock <= valCritico) {
+                    avisoCritico = " ⚠️ Atención: El stock ingresado está en nivel crítico.";
+                }
+
+                mensajeExito.textContent = `✅ ¡Producto "${valNombre}" guardado en la base de datos!${avisoCritico}`;
+                mensajeExito.style.display = "block";
+
+                form.reset();
+
+            } catch (err) {
+                console.error("Error inesperado:", err);
+                alert("Ocurrió un error al intentar conectar con la base de datos.");
+            }
         }
     });
 });

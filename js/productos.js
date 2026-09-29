@@ -1,4 +1,4 @@
-// ===== Arreglo de productos: CompuTienda =====
+// ===== Arreglo de productos estáticos (para catálogo de tienda/cliente) =====
 const PRODUCTOS = [
     {
         id: 1,
@@ -74,7 +74,7 @@ const PRODUCTOS = [
     }
 ];
 
-// Renderiza productos en un contenedor
+// Renderiza productos en un contenedor (Tienda pública)
 function renderizarProductos(contenedorId, lista = PRODUCTOS) {
     const contenedor = document.getElementById(contenedorId);
     if (!contenedor) return;
@@ -90,10 +90,10 @@ function renderizarProductos(contenedorId, lista = PRODUCTOS) {
         const art = document.createElement("article");
         art.className = "item-producto";
         art.innerHTML = `
-            <img src="${p.imagen}" alt="${p.nombre}" class="foto-producto">
+            <img src="${p.imagen || 'https://via.placeholder.com/300'}" alt="${p.nombre}" class="foto-producto">
             <h3>${p.nombre}</h3>
-            <p>${p.descripcion}</p>
-            <p class="precio">$${p.precio.toLocaleString('es-CL')}</p>
+            <p>${p.descripcion || ''}</p>
+            <p class="precio">$${p.precio ? p.precio.toLocaleString('es-CL') : 0}</p>
             <a href="detalle-producto.html?id=${p.id}" class="btn-accion">Ver detalle</a>
         `;
         contenedor.appendChild(art);
@@ -107,103 +107,100 @@ function obtenerIdDesdeURL() {
 }
 
 /* ==========================================================================
-   RENDERIZADO DE CATÁLOGO: TABLA ADMINISTRATIVA DE PRODUCTOS
-   Responsabilidad:
-     - Detección del contenedor tabular administrativo en 'admin-productos.html'
-     - Recuperación y parseo de productos dinámicos persistidos en localStorage ('productos')
-     - Construcción dinámica de nodos <tr> e inyección en el <tbody>
-     - Cálculo visual del indicador badge según stock <= stockCritico
+   RENDERIZADO Y ACCIONES: TABLA ADMINISTRATIVA DE PRODUCTOS (SUPABASE)
    ========================================================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const tablaCuerpo = document.querySelector(".tabla-datos tbody");
+    if (!tablaCuerpo) return;
 
-    if (tablaCuerpo) {
-        const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
+    // Función para consultar productos a Supabase y pintarlos
+    async function cargarProductosDesdeBD() {
+        tablaCuerpo.innerHTML = `<tr><td colspan="7" style="text-align:center;">Cargando productos desde la base de datos...</td></tr>`;
 
-        productosGuardados.forEach((item) => {
-            const fila = document.createElement("tr");
+        try {
+            // Consulta SQL SELECT * FROM productos ORDER BY id DESC
+            const { data: productos, error } = await window.db
+                .from("productos")
+                .select("*")
+                .order("id", { ascending: false });
 
-            const esCritico = item.stockCritico !== null && item.stock <= item.stockCritico;
-            let badgeEstado = '<span class="badge-alerta badge-normal">Normal</span>';
-
-            if (item.precio === 0) {
-                badgeEstado = '<span class="badge-alerta badge-normal">FREE</span>';
-            } else if (esCritico) {
-                badgeEstado = `<span class="badge-alerta badge-critico">Crítico (≤${item.stockCritico})</span>`;
+            if (error) {
+                console.error("Error al obtener productos:", error);
+                tablaCuerpo.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Error al cargar productos: ${error.message}</td></tr>`;
+                return;
             }
 
-            fila.innerHTML = `
-                <td><strong>${item.codigo}</strong></td>
-                <td>${item.nombre}</td>
-                <td>${item.categoria || "General"}</td>
-                <td>$${item.precio.toLocaleString("es-CL")}</td>
-                <td>${item.stock}</td>
-                <td>${badgeEstado}</td>
-                <td>
-                    <button type="button" class="btn-tabla btn-editar">Editar</button>
-                    <button type="button" class="btn-tabla btn-eliminar">Eliminar</button>
-                </td>
-            `;
+            tablaCuerpo.innerHTML = "";
 
-            tablaCuerpo.appendChild(fila);
-        });
+            if (!productos || productos.length === 0) {
+                tablaCuerpo.innerHTML = `<tr><td colspan="7" style="text-align:center;">No hay productos registrados en la base de datos.</td></tr>`;
+                return;
+            }
+
+            productos.forEach((item) => {
+                const fila = document.createElement("tr");
+
+                const stockCritico = item.stock_critico !== null ? item.stock_critico : item.stockCritico;
+                const esCritico = stockCritico !== null && item.stock <= stockCritico;
+                let badgeEstado = '<span class="badge-alerta badge-normal">Normal</span>';
+
+                if (item.precio === 0) {
+                    badgeEstado = '<span class="badge-alerta badge-normal">FREE</span>';
+                } else if (esCritico) {
+                    badgeEstado = `<span class="badge-alerta badge-critico">Crítico (≤${stockCritico})</span>`;
+                }
+
+                fila.innerHTML = `
+                    <td><strong>${item.codigo}</strong></td>
+                    <td>${item.nombre}</td>
+                    <td>${item.categoria || "General"}</td>
+                    <td>$${item.precio ? Number(item.precio).toLocaleString("es-CL") : 0}</td>
+                    <td>${item.stock}</td>
+                    <td>${badgeEstado}</td>
+                    <td>
+                        <button type="button" class="btn-tabla btn-eliminar" data-codigo="${item.codigo}">Eliminar</button>
+                    </td>
+                `;
+
+                tablaCuerpo.appendChild(fila);
+            });
+
+        } catch (err) {
+            console.error("Error al conectar:", err);
+            tablaCuerpo.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Ocurrió un error al conectar con el servidor.</td></tr>`;
+        }
     }
-});
 
-/* ==========================================================================
-   RENDERIZADO Y ELIMINACIÓN: TABLA ADMINISTRATIVA DE PRODUCTOS
-   ========================================================================== */
-document.addEventListener("DOMContentLoaded", () => {
-    const tablaCuerpo = document.querySelector(".tabla-datos tbody");
+    // Cargar los productos al iniciar la página
+    await cargarProductosDesdeBD();
 
-    if (tablaCuerpo) {
-        const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
+    // Delegación de eventos para eliminar directo en Supabase
+    tablaCuerpo.addEventListener("click", async (e) => {
+        if (e.target.classList.contains("btn-eliminar")) {
+            const codigoAEliminar = e.target.getAttribute("data-codigo");
 
-        productosGuardados.forEach((item) => {
-            const fila = document.createElement("tr");
+            if (codigoAEliminar && confirm(`¿Estás seguro de que deseas eliminar el producto ${codigoAEliminar}?`)) {
+                try {
+                    // Consulta SQL DELETE FROM productos WHERE codigo = codigoAEliminar
+                    const { error } = await window.db
+                        .from("productos")
+                        .delete()
+                        .eq("codigo", codigoAEliminar);
 
-            const esCritico = item.stockCritico !== null && item.stock <= item.stockCritico;
-            let badgeEstado = '<span class="badge-alerta badge-normal">Normal</span>';
+                    if (error) {
+                        alert("No se pudo eliminar de la base de datos: " + error.message);
+                        return;
+                    }
 
-            if (item.precio === 0) {
-                badgeEstado = '<span class="badge-alerta badge-normal">FREE</span>';
-            } else if (esCritico) {
-                badgeEstado = `<span class="badge-alerta badge-critico">Crítico (≤${item.stockCritico})</span>`;
-            }
-
-            fila.innerHTML = `
-                <td><strong>${item.codigo}</strong></td>
-                <td>${item.nombre}</td>
-                <td>${item.categoria || "General"}</td>
-                <td>$${item.precio.toLocaleString("es-CL")}</td>
-                <td>${item.stock}</td>
-                <td>${badgeEstado}</td>
-                <td>
-                    <button type="button" class="btn-tabla btn-editar">Editar</button>
-                    <button type="button" class="btn-tabla btn-eliminar" data-codigo="${item.codigo}">Eliminar</button>
-                </td>
-            `;
-
-            tablaCuerpo.appendChild(fila);
-        });
-
-        // Delegación de eventos para los botones Eliminar
-        tablaCuerpo.addEventListener("click", (e) => {
-            if (e.target.classList.contains("btn-eliminar")) {
-                const codigoAEliminar = e.target.getAttribute("data-codigo");
-
-                if (codigoAEliminar && confirm(`¿Estás seguro de que deseas eliminar el producto ${codigoAEliminar}?`)) {
-                    // Filtrar y actualizar localStorage
-                    let lista = JSON.parse(localStorage.getItem("productos")) || [];
-                    lista = lista.filter(prod => prod.codigo !== codigoAEliminar);
-                    localStorage.setItem("productos", JSON.stringify(lista));
-
-                    // Quitar la fila de la tabla en el navegador
+                    // Quitar fila del DOM
                     const fila = e.target.closest("tr");
                     if (fila) fila.remove();
+
+                } catch (err) {
+                    console.error("Error al eliminar:", err);
+                    alert("Ocurrió un error al intentar eliminar el registro.");
                 }
             }
-        });
-    }
+        }
+    });
 });
