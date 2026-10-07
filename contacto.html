@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La CompuTienda - Contacto</title>
+    <title>La Computienda - Contacto</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="contenedor-principal">
 
-        <!-- encabezado -->
         <header class="barra-navegacion">
             <div class="logo-contenedor">
                 <span class="cuadrito-logo"></span>
-                <span class="nombre-sitio">🤖 La CompuTienda 🤖</span>
+                <span class="nombre-sitio">🤖 La Computienda 🤖</span>
             </div>
             <nav class="enlaces-menu">
                 <a href="index.html">Home</a>
@@ -22,33 +21,31 @@
                 <a href="blogs.html">Blogs</a>
                 <a href="contacto.html" class="activo">Contacto</a>
             </nav>
-            <a href="carrito.html" class="info-carrito">
+            <div class="info-carrito">
                 🛒 Carrito (<span id="contador-carrito">0</span>)
-            </a>
+            </div>
         </header>
 
-        <!-- barra de sesión -->
         <div class="barra-sesion">
-            <a href="Inicio-sesion.html">Iniciar sesión</a> | 
+            <a href="Inicio-sesion.html">Iniciar sesión</a> |
             <a href="registro.html">Registrar usuario</a>
         </div>
 
-        <!-- MAIN= -->
         <main class="seccion-registro">
             <div class="contenedor-formulario">
                 <div class="titulo-formulario">Formulario de Contacto</div>
-                
+
                 <form id="formularioContacto" class="formulario-registro" novalidate>
                     <label for="nombreContacto">NOMBRE COMPLETO (*)</label>
                     <input type="text" id="nombreContacto" name="nombreContacto" maxlength="100" placeholder="Ej: Miguel Morales">
                     <span id="errorNombre" class="mensaje-error"></span>
 
                     <label for="correoContacto">CORREO ELECTRÓNICO (*)</label>
-                    <input type="email" id="correoContacto" name="correoContacto" maxlength="100" placeholder="usuario@duoc.cl o @gmail.com">
+                    <input type="email" id="correoContacto" name="correoContacto" maxlength="100" placeholder="usuario@duoc.cl o gmail.com">
                     <span id="errorCorreo" class="mensaje-error"></span>
 
                     <label for="comentarioContacto">MENSAJE O COMENTARIO (*)</label>
-                    <textarea id="comentarioContacto" name="comentarioContacto" class="campo-textarea" maxlength="500" rows="5" placeholder="Escribe tu consulta aquí (máx. 500 caracteres)..."></textarea>
+                    <textarea id="comentarioContacto" name="comentarioContacto" class="campo-textarea" maxlength="500" rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
                     <span id="errorComentario" class="mensaje-error"></span>
 
                     <button type="submit" class="boton-registrar">ENVIAR MENSAJE</button>
@@ -57,10 +54,9 @@
             </div>
         </main>
 
-        <!-- ===== FOOTER ===== -->
         <footer class="pie-pagina-izquierda">
             <div class="pie-izquierda">
-                <p class="marca-footer">La CompuTienda</p>
+                <p class="marca-footer">La Computienda</p>
                 <p class="pie-copy">© 2026 - Todos los derechos reservados</p>
             </div>
             <div class="pie-pagina-derecha">
@@ -73,70 +69,8 @@
         </footer>
 
     </div>
-
-    <!-- SCRIPTS -->
-    <script src="js/carrito.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById("formularioContacto");
-            const nombre = document.getElementById("nombreContacto");
-            const correo = document.getElementById("correoContacto");
-            const comentario = document.getElementById("comentarioContacto");
-
-            const errorNombre = document.getElementById("errorNombre");
-            const errorCorreo = document.getElementById("errorCorreo");
-            const errorComentario = document.getElementById("errorComentario");
-            const mensajeExito = document.getElementById("mensajeExito");
-
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-                let esValido = true;
-
-                errorNombre.textContent = "";
-                errorCorreo.textContent = "";
-                errorComentario.textContent = "";
-                mensajeExito.style.display = "none";
-
-                const valNombre = nombre.value.trim();
-                if (!valNombre) {
-                    errorNombre.textContent = "El nombre es obligatorio.";
-                    esValido = false;
-                } else if (valNombre.length > 100) {
-                    errorNombre.textContent = "El nombre no puede exceder los 100 caracteres.";
-                    esValido = false;
-                }
-
-                const valCorreo = correo.value.trim().toLowerCase();
-                const dominiosValidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
-                const tieneDominioValido = dominiosValidos.some(dom => valCorreo.endsWith(dom));
-
-                if (!valCorreo) {
-                    errorCorreo.textContent = "El correo es obligatorio.";
-                    esValido = false;
-                } else if (valCorreo.length > 100) {
-                    errorCorreo.textContent = "El correo no puede exceder los 100 caracteres.";
-                    esValido = false;
-                } else if (!tieneDominioValido) {
-                    errorCorreo.textContent = "Solo se permiten correos @duoc.cl, @profesor.duoc.cl o @gmail.com.";
-                    esValido = false;
-                }
-
-                const valComentario = comentario.value.trim();
-                if (!valComentario) {
-                    errorComentario.textContent = "El mensaje o comentario es obligatorio.";
-                    esValido = false;
-                } else if (valComentario.length > 500) {
-                    errorComentario.textContent = "El comentario no puede exceder los 500 caracteres.";
-                    esValido = false;
-                }
-
-                if (esValido) {
-                    mensajeExito.textContent = "✅ ¡Mensaje enviado con éxito! Nos contactaremos a la brevedad.";
-                    mensajeExito.style.display = "block";
-                    form.reset();
-                }
-            });
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/contacto.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.querySelector(".formulario-registro");
 
-    formulario.addEventListener("submit", function (evento) {
+    formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
 
         const nombre = document.getElementById("nombre").value.trim();
@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const correoConf = document.getElementById("correo-conf").value.trim();
         const password = document.getElementById("password").value;
         const passwordConf = document.getElementById("password-conf").value;
+        const telefono = document.getElementById("telefono") ? document.getElementById("telefono").value.trim() : "";
+        const region = document.getElementById("region") ? document.getElementById("region").value : "";
+        const comuna = document.getElementById("comuna") ? document.getElementById("comuna").value : "";
 
         if (nombre === "") {
             alert("El nombre completo es requerido.");
@@ -30,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const dominiosPermitidos = ["@duoc.cl", "@profesor.duoc.cl", "@gmail.com"];
         const esDominioValido = dominiosPermitidos.some(dominio => correo.endsWith(dominio));
-        
+
         if (!esDominioValido) {
             alert("Solo se permiten correos con @duoc.cl, @profesor.duoc.cl y @gmail.com");
             return;
@@ -55,7 +58,34 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        alert("¡Registro exitoso!");
-        formulario.submit();
+        // --- GUARDAR EN SUPABASE ---
+        try {
+            // Reemplaza 'usuarios' por el nombre exacto de tu tabla en Supabase
+            const { data, error } = await window.db
+                .from('usuarios') 
+                .insert([
+                    { 
+                        nombre: nombre, 
+                        correo: correo, 
+                        password: password,
+                        telefono: telefono,
+                        region: region,
+                        comuna: comuna
+                    }
+                ]);
+
+            if (error) {
+                console.error("Error de Supabase:", error);
+                alert("Hubo un error al registrar: " + error.message);
+                return;
+            }
+
+            alert("¡Registro exitoso y guardado!");
+            formulario.reset();
+
+        } catch (err) {
+            console.error("Error inesperado:", err);
+            alert("Ocurrió un error inesperado.");
+        }
     });
 });

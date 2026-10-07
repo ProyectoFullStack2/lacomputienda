@@ -55,7 +55,6 @@
                     <label for="telefono">TELÉFONO (OPCIONAL)</label>
                     <input type="tel" id="telefono" name="telefono" placeholder="Ej: 912345678">
 
-                    <!-- Selects y botón -->
                     <div class="contenedor-selects">
                         <div class="grupo-select">
                             <select name="region" id="region">
@@ -63,6 +62,10 @@
                                 <option value="metropolitana">Región Metropolitana de Santiago</option>
                                 <option value="araucania">Región de la Araucanía</option>
                                 <option value="nuble">Región de Ñuble</option>
+                                <option value="nuble">Región de Atacama</option>
+                                <option value="nuble">Región de Coquimbo</option>
+                                <option value="nuble">Región de Valparaiso</option>
+                                <option value="nuble">Región de Maule</option>
                             </select>
                         </div>
                         <div class="grupo-select">
@@ -70,7 +73,7 @@
                                 <option value="">-- Seleccione la comuna --</option>
                                 <option value="linares">Linares</option>
                                 <option value="longavi">Longaví</option>
-                                <option value="concepcion">Concepción</option>
+                                <option value="concepcion">La Florida</option>                     
                             </select>
                         </div>
                     </div>
@@ -94,6 +97,8 @@
         </footer>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
     <script src="js/registro.js"></script>
 </body>
 </html>

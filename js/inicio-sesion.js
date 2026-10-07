@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.querySelector("form");
 
     if (formulario) {
-        formulario.addEventListener("submit", function (evento) {
+        formulario.addEventListener("submit", async function (evento) {
             evento.preventDefault();
 
             const correoInput = document.getElementById("correo");
@@ -45,7 +45,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            alert("¡Inicio de sesión exitoso!");
+            try {
+
+                const { data, error } = await window.db
+                    .from('usuarios')
+                    .select('*')
+                    .eq('correo', correo)
+                    .single();
+
+                if (error || !data) {
+                    alert("El correo electrónico no está registrado.");
+                    return;
+                }
+
+                if (data.password === password) {
+                    alert(`¡Inicio de sesión exitoso! Bienvenido de nuevo, ${data.nombre}`);
+                    
+                    localStorage.setItem("usuarioLogueado", JSON.stringify(data));
+
+                    window.location.href = "index.html";
+                } else {
+                    alert("Contraseña incorrecta.");
+                }
+
+            } catch (err) {
+                console.error("Error al conectar con Supabase:", err);
+                alert("Ocurrió un error inesperado al intentar iniciar sesión.");
+            }
         });
     }
 });
