@@ -133,8 +133,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     nombre: valNombre,
                     apellidos: valApellidos,
                     correo: valCorreo,
-                    clave: "123456", // Contraseña inicial genérica para que el usuario pueda iniciar sesión
-                    rol: selectTipo.value
+                    password: "123456", // Contraseña inicial genérica para que el usuario pueda iniciar sesión
+                    rol: selectTipo.value,
+                    region: selectRegion.value,
+                    comuna: selectComuna.value,
                 };
 
                 try {
