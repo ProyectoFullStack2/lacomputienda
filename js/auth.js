@@ -11,7 +11,6 @@ function obtenerAdminLogueado() {
     }
 }
 
-
 function protegerRutaAdministrador() {
     const admin = obtenerAdminLogueado();
     if (!admin) {
@@ -51,6 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!correo || !clave) {
             mostrarError("Debes ingresar correo y contraseña.");
+            return;
+        }
+
+        if (correo === "admin@gmail.com" && clave === "ADMIN12D") {
+            localStorage.setItem(CLAVE_ADMIN, JSON.stringify({
+                nombre: "Administrador",
+                correo: correo,
+                rol: "Administrador"
+            }));
+            window.location.href = "admin-home.html";
             return;
         }
 
